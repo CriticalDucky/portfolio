@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jacob Epshteyn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..600&display=swap">
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #0f0f0e;
+    --surface: #181816;
+    --line: #2a2926;
+    --text: #ebe9e4;
+    --muted: #97948c;
+    --faint: #6b6861;
+    --accent: #d8b27a;
+    --font: "Instrument Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --gutter: clamp(16px, 5vw, 56px);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 400 16px/1.6 var(--font);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration-color: var(--faint); text-underline-offset: 3px; }
+  a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  img { max-width: 100%; display: block; }
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding-inline: var(--gutter); }
+
+  /* Header */
+  header.top {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 5;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  header.top .wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; padding-block: 14px;
+  }
+  .name { font-weight: 600; letter-spacing: -0.01em; text-decoration: none; }
+  nav { display: flex; gap: clamp(14px, 3vw, 28px); font-size: 14px; color: var(--muted); }
+  nav a { text-decoration: none; }
+
+  /* Intro */
+  .intro { padding-block: clamp(56px, 10vw, 112px) clamp(40px, 7vw, 72px); }
+  .intro h1 {
+    margin: 0; max-width: 20ch;
+    font-size: clamp(30px, 5.2vw, 54px); line-height: 1.08;
+    font-weight: 500; font-stretch: 85%; letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+  .intro h1 span { color: var(--muted); }
+  .intro p { margin: 20px 0 0; color: var(--muted); max-width: 52ch; }
+
+  /* Project sections */
+  section.project { padding-block: clamp(48px, 8vw, 96px); border-top: 1px solid var(--line); }
+  .label {
+    font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--faint);
+  }
+  .project-head {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: clamp(28px, 5vw, 64px); align-items: start;
+  }
+  .project-head h2 {
+    margin: 10px 0 0;
+    font-size: clamp(28px, 4vw, 40px); line-height: 1.1;
+    font-weight: 500; font-stretch: 85%; letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .project-head .meta { margin: 8px 0 0; color: var(--muted); font-size: 15px; }
+  .project-head .body p { margin: 20px 0 0; max-width: 60ch; }
+  .project-head .body p + p { margin-top: 12px; }
+
+  dl.specs {
+    margin: 28px 0 0; padding: 0;
+    display: grid; grid-template-columns: max-content 1fr;
+    column-gap: 24px; row-gap: 0;
+    font-size: 14px;
+  }
+  dl.specs dt, dl.specs dd {
+    margin: 0; padding-block: 9px; border-top: 1px solid var(--line);
+  }
+  dl.specs dt { color: var(--faint); }
+  dl.specs dd { font-variant-numeric: tabular-nums; }
+
+  .hero-img {
+    margin: 0; background: var(--surface);
+    aspect-ratio: 3 / 4; max-width: 100%;
+    overflow: hidden; cursor: zoom-in;
+  }
+  .hero-img img { width: 100%; height: 100%; object-fit: cover; }
+
+  .links { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 20px; font-size: 14px; }
+
+  /* Gallery */
+  .gallery-head {
+    margin-top: clamp(56px, 8vw, 88px);
+    display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+    padding-bottom: 14px; border-bottom: 1px solid var(--line);
+  }
+  .gallery-head h3 { margin: 0; font-size: 15px; font-weight: 500; }
+  .gallery-head span { font-size: 13px; color: var(--faint); font-variant-numeric: tabular-nums; }
+  .gallery {
+    list-style: none; margin: 28px 0 0; padding: 0;
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 40px clamp(16px, 2.4vw, 28px);
+  }
+  .gallery button {
+    all: unset; display: block; width: 100%; cursor: zoom-in;
+  }
+  .gallery .thumb {
+    aspect-ratio: 1; max-width: 100%; overflow: hidden; background: var(--surface);
+  }
+  .gallery .thumb img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .5s ease, opacity .3s ease; opacity: .92;
+  }
+  .gallery .thumb.contain img, .gallery .thumb.white img { object-fit: contain; }
+  .gallery .thumb.white { background: #fff; }
+  .gallery button:hover .thumb img { transform: scale(1.025); opacity: 1; }
+  .gallery button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+  .cap { margin-top: 12px; font-size: 14px; line-height: 1.5; }
+  .cap .date { font-size: 12px; color: var(--faint); font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+  .cap .title { margin-top: 2px; font-weight: 500; }
+  .cap .text { margin-top: 4px; color: var(--muted); }
+
+  /* Resume */
+  section.resume { padding-block: clamp(48px, 8vw, 96px); border-top: 1px solid var(--line); }
+  .resume-row {
+    margin-top: 20px;
+    display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 24px;
+  }
+  .resume-row p { margin: 0; color: var(--muted); max-width: 58ch; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 20px; border: 1px solid var(--text);
+    color: var(--text); background: transparent;
+    font: 500 14px/1 var(--font); text-decoration: none; cursor: pointer;
+    transition: background .2s, color .2s;
+  }
+  .btn:hover { background: var(--text); color: var(--bg); }
+  .btn svg { width: 14px; height: 14px; }
+  .note { margin-top: 10px; font-size: 13px; color: var(--faint); min-height: 1.4em; }
+
+  footer { border-top: 1px solid var(--line); color: var(--faint); font-size: 13px; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-block: 28px 40px; }
+  .email { color: var(--muted); user-select: all; }
+
+  /* Lightbox */
+  dialog.lightbox {
+    border: 0; padding: 0; margin: 0; max-width: 100vw; max-height: 100vh;
+    width: 100vw; height: 100vh; background: rgba(8, 8, 7, 0.96); color: var(--text);
+  }
+  dialog.lightbox::backdrop { background: rgba(8, 8, 7, 0.96); }
+  .lb-inner {
+    height: 100%; display: grid; grid-template-rows: 1fr auto;
+    padding: max(16px, env(safe-area-inset-top, 0px)) 16px max(16px, env(safe-area-inset-bottom, 0px));
+    gap: 14px;
+  }
+  .lb-img { min-height: 0; display: flex; align-items: center; justify-content: center; }
+  .lb-img img { max-height: 100%; max-width: 100%; object-fit: contain; }
+  .lb-bar {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    max-width: 1120px; width: 100%; margin: 0 auto; font-size: 14px;
+  }
+  .lb-bar .lb-cap { color: var(--muted); }
+  .lb-bar .lb-cap strong { color: var(--text); font-weight: 500; }
+  .lb-ctrls { display: flex; gap: 6px; flex-shrink: 0; }
+  .lb-ctrls button {
+    font: 500 13px/1 var(--font); color: var(--text); background: transparent;
+    border: 1px solid var(--line); padding: 9px 12px; cursor: pointer;
+  }
+  .lb-ctrls button:hover { border-color: var(--muted); }
+
+  @media (max-width: 860px) {
+    .project-head { grid-template-columns: 1fr; }
+    .hero-img { aspect-ratio: 4 / 5; }
+    .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 480px) {
+    .gallery { grid-template-columns: 1fr; gap: 32px; }
+    nav a.hide-sm { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .gallery .thumb img, .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="name" href="#top">Jacob Epshteyn</a>
+    <nav aria-label="Sections">
+      <a href="#harp">Harp</a>
+      <a href="#auralis">Auralis</a>
+      <a href="#resume">Resume</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap intro">
+    <h1>Jacob Epshteyn. <span>Electrical Engineering with Computing at MIT, Class of 2029.</span></h1>
+    <p>Projects: a 34-string lever harp built at the MIT Hobby Shop, and Auralis, a hand-controlled electronic instrument.</p>
+  </div>
+
+  <section class="project" id="harp">
+    <div class="wrap">
+      <div class="project-head">
+        <div class="body">
+          <div class="label">MIT Hobby Shop · Oct 2025 – Apr 2026</div>
+          <h2>34-string lever harp</h2>
+          <p>A five-foot instrument built through CNC machining, woodworking, precision drilling, hardware installation, and stringing. The project spanned two semesters and was my introduction to woodworking.</p>
+          <p>The design comes from MusicMakers, which provides it only as paper blueprints. I modeled the whole harp in Fusion 360 so its parts could be cut on a CNC router. Much gratitude is owed to the Hobby Shop staff, who provided endless support.</p>
+          <dl class="specs">
+            <dt>Strings</dt><dd>34</dd>
+            <dt>Height</dt><dd>About 5 ft</dd>
+            <dt>String tension</dt><dd>1,000+ lbs</dd>
+            <dt>CAD</dt><dd>Fusion 360, modeled from paper blueprints</dd>
+            <dt>Fabrication</dt><dd>CNC routing, glue-ups, sanding, hand drilling, hardware, stringing</dd>
+          </dl>
+        </div>
+        <figure class="hero-img" data-hero="harp">
+          <img src="img/harp_IMG_3073.jpg" alt="The finished 34-string lever harp, strung, on display at the Hobby Shop" width="1050" height="1400">
+        </figure>
+      </div>
+
+      <div class="gallery-head">
+        <h3>Build log</h3>
+        <span>17 photos · Oct 2025 – Apr 2026</span>
+      </div>
+      <ol class="gallery" id="harp-gallery"></ol>
+    </div>
+  </section>
+
+  <section class="project" id="auralis">
+    <div class="wrap">
+      <div class="project-head">
+        <div class="body">
+          <div class="label">Independent project · 2023 – 2025</div>
+          <h2>Auralis</h2>
+          <p>A hand-controlled electronic instrument. You play it by moving a hand over one of twelve note sensors set around an illuminated ring. It plays single notes, chords, and a large library of instrument files, and its programmable lights let it double as a light show.</p>
+          <p>I designed it over two summers and my junior year of high school, and learned CAD and programming along the way. It was inspired by Animusic, the animated series of automatic instruments. I performed it for my graduating class in 2025.</p>
+          <dl class="specs">
+            <dt>Sensors</dt><dd>12 × VL53L0X time-of-flight, shared I²C bus</dd>
+            <dt>Controllers</dt><dd>Raspberry Pi 4B and Raspberry Pi Zero</dd>
+            <dt>Lighting</dt><dd>WS2812B addressable LED strip</dd>
+            <dt>Latency</dt><dd>Under 50 ms, hand to sound</dd>
+            <dt>Enclosure</dt><dd>Modular illuminated frame, modeled in CAD</dd>
+          </dl>
+          <div class="links">
+            <a href="https://github.com/CriticalDucky/Instrument" target="_blank" rel="noopener">Source code on GitHub ↗</a>
+          </div>
+        </div>
+        <figure class="hero-img" data-hero="auralis">
+          <img src="img/auralis_final_lit.jpg" alt="Auralis lit up, with each ring segment glowing a different color" width="1038" height="1400">
+        </figure>
+      </div>
+
+      <div class="gallery-head">
+        <h3>Design and build</h3>
+        <span>13 images</span>
+      </div>
+      <ol class="gallery" id="auralis-gallery"></ol>
+    </div>
+  </section>
+
+  <section class="resume" id="resume">
+    <div class="wrap">
+      <div class="label">Resume</div>
+      <div class="resume-row">
+        <p>One page covering education, technical projects, work experience, skills, and awards. PDF, updated September 2026.</p>
+        <a class="btn" id="resume-btn" href="jacob_epshteyn_resume.pdf" download="Jacob_Epshteyn_Resume.pdf">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 2v9M4 7l4 4 4-4M2.5 14h11"/></svg>
+          Download resume
+        </a>
+      </div>
+      <div class="note" id="resume-note" role="status"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="email">jeps@mit.edu</span>
+    <a href="https://github.com/CriticalDucky" target="_blank" rel="noopener">github.com/CriticalDucky</a>
+  </div>
+</footer>
+
+<dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+  <div class="lb-inner">
+    <div class="lb-img"><img id="lb-img" alt=""></div>
+    <div class="lb-bar">
+      <div class="lb-cap" id="lb-cap"></div>
+      <div class="lb-ctrls">
+        <button type="button" id="lb-prev" aria-label="Previous photo">←</button>
+        <button type="button" id="lb-next" aria-label="Next photo">→</button>
+        <button type="button" id="lb-close">Close</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+const HARP = [
+  ["fusion_assembly", "Oct 2025", "Modeling the harp in Fusion 360", "The design came only as paper blueprints. To cut parts precisely on the CNC, I modeled the entire harp in CAD.", "contain"],
+  ["fusion_neck", "Oct 2025", "Laying out the neck hardware", "The neck model defines the curved profile and two rows of hardware holes, setting the geometry for machining and drilling.", "contain"],
+  ["dorm_wood", "Oct 2025", "Gathering the wood", "Hardwood and plywood from Boulter Plywood, bought to be CNC'd for the harp. It sat in my dorm room for a couple of weeks."],
+  ["IMG_2836", "Early 2026", "Cutting the first components", "Structural braces for the soundbox, fresh off the CNC."],
+  ["IMG_2899", "3 Feb 2026", "Clamping the soundbox", "Four pieces had to be glued at once: the base, the two sides, and the top block. One of the Hobby Shop staff helped with this tricky glue-up."],
+  ["IMG_2903", "4 Feb 2026", "Clamps removed", "The frame of the soundbox is complete."],
+  ["IMG_2912", "7 Feb 2026", "Fitting the rear panel", "A long rear panel with rounded openings, which give access to the interior as the body takes shape."],
+  ["IMG_2916", "10 Feb 2026", "Braces installed", "The CNC-cut braces support the soundbox against more than 1,000 lbs of string tension."],
+  ["IMG_2937", "19 Feb 2026", "Making and finishing the base", "The rest of the harp sits on this piece."],
+  ["IMG_2951", "28 Feb 2026", "Standing the body on its base", "The soundbox stands upright on the shaped base, joining body and support into one structure."],
+  ["IMG_2958", "3 Mar 2026", "Establishing the full-height form", "The front pillar stands beside the soundbox. With the neck still missing, the harp's triangular form starts to appear."],
+  ["IMG_2976", "Mar 2026", "Machining the curved neck", "The plans are strict about the neck's grain direction, so I glued several boards together first. The two neck halves are machined separately and glued after structural pieces go in."],
+  ["IMG_2977", "12 Mar 2026", "Checking the neck and pillar fit", "The curved neck and pillar laid out together, showing the upper frame geometry before they join the soundbox."],
+  ["IMG_2985", "Mar 2026", "Sanding", "Making sure every face of the neck is smooth after the glue-up."],
+  ["IMG_3004", "Mar 2026", "Drilling the hardware locations", "Some holes couldn't be milled and had to be drilled by hand."],
+  ["IMG_3016", "27 Mar 2026", "Assembling the complete frame", "Neck, pillar, soundbox, and base form the full harp. Tuning pins line the neck; the strings are not on yet."],
+  ["IMG_3073", "18 Apr 2026", "Strung and finished", "On display for admitted students at the Hobby Shop open house during Campus Preview Weekend 2026."],
+];
+const AURALIS = [
+  ["stage", "Mar 2025", "On the school stage", "Auralis set up on its stands on the school stage."],
+  ["cad_ring", "CAD", "Twelve-sided ring", "Front view of the frame: twelve segments, one for each note sensor.", "contain"],
+  ["cad_frame", "CAD", "Full frame assembly", "The modular frame in perspective.", "contain"],
+  ["cad_segment", "CAD", "Frame segment", "Parts for one segment of the frame.", "contain"],
+  ["cad_sensor_mount", "CAD", "Circular parts", "Round components modeled for the instrument.", "contain"],
+  ["cad_foot", "CAD", "Frame detail", "A single modeled part.", "contain"],
+  ["diagram.png", "Electronics", "Wiring overview", "The Pi 4B drives the LED strip and powers a Pi Zero. The Zero reads all twelve sensors over shared SDA/SCL, with a separate XSHUT line for each so they can be given unique addresses.", "white"],
+  ["frame_printed", "Aug 2023", "Frame assembled", "The ring assembled before the electronics went in."],
+  ["frame_stands", "Aug 2023", "Hung between stands", "The empty frame hung from a crossbar between two stands."],
+  ["wiring", "Oct 2023", "Wiring the sensors", "Twelve sensors on one I²C bus means a lot of wire routed through the frame."],
+  ["lit_test", "Oct 2023", "First light", "Testing the LED strip inside the frame."],
+  ["assembly", "Development", "Assembly", "Putting the ring together on the floor."],
+  ["final", "Dec 2023", "Lights off", "The ring on its stands with the lights off."],
+];
+
+function imgSrc(prefix, id) { return `img/${prefix}_${id}${id.includes(".") ? "" : ".jpg"}`; }
+
+function renderGallery(el, items, prefix, alts) {
+  items.forEach(([id, date, title, text, fit], i) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <button type="button" aria-label="Enlarge: ${title}">
+        <div class="thumb${fit ? " " + fit : ""}">
+          <img src="${imgSrc(prefix, id)}" alt="" loading="lazy" decoding="async">
+        </div>
+      </button>
+      <div class="cap">
+        <div class="date">${date}</div>
+        <div class="title"></div>
+        <div class="text"></div>
+      </div>`;
+    li.querySelector(".title").textContent = title;
+    li.querySelector(".text").textContent = text;
+    li.querySelector("img").alt = title;
+    li.querySelector("button").addEventListener("click", () => openLB(items, prefix, i));
+    el.appendChild(li);
+  });
+}
+renderGallery(document.getElementById("harp-gallery"), HARP, "harp");
+renderGallery(document.getElementById("auralis-gallery"), AURALIS, "auralis");
+
+// Lightbox
+const lb = document.getElementById("lightbox");
+const lbImg = document.getElementById("lb-img");
+const lbCap = document.getElementById("lb-cap");
+let cur = null;
+function showLB() {
+  const [id, date, title] = cur.items[cur.i];
+  lbImg.src = imgSrc(cur.prefix, id);
+  lbImg.alt = title;
+  lbCap.innerHTML = "";
+  const s = document.createElement("strong"); s.textContent = title;
+  lbCap.append(s, document.createTextNode(`  ·  ${date}  ·  ${cur.i + 1} / ${cur.items.length}`));
+}
+function openLB(items, prefix, i) {
+  cur = { items, prefix, i };
+  showLB();
+  if (typeof lb.showModal === "function") lb.showModal(); else lb.setAttribute("open", "");
+}
+function step(d) { cur.i = (cur.i + d + cur.items.length) % cur.items.length; showLB(); }
+document.getElementById("lb-prev").onclick = () => step(-1);
+document.getElementById("lb-next").onclick = () => step(1);
+document.getElementById("lb-close").onclick = () => lb.close();
+lb.addEventListener("click", e => { if (e.target === lb || e.target.classList.contains("lb-img")) lb.close(); });
+lb.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft") step(-1);
+  if (e.key === "ArrowRight") step(1);
+});
+document.querySelectorAll("[data-hero]").forEach(fig => {
+  fig.addEventListener("click", () => {
+    if (fig.dataset.hero === "harp") openLB(HARP, "harp", HARP.length - 1);
+    else openLB([["final_lit", "Dec 2023", "Auralis, lit"], ...AURALIS], "auralis", 0);
+  });
+});
+
+// Resume: plain link on a normal host; inside a Claude artifact, hand the file over via the downloads capability.
+(async () => {
+  if (!window.claude || typeof window.claude.use !== "function") return;
+  const btn = document.getElementById("resume-btn");
+  const note = document.getElementById("resume-note");
+  const downloads = await window.claude.use("downloads");
+  if (!downloads) return;
+  btn.addEventListener("click", async e => {
+    e.preventDefault();
+    note.textContent = "";
+    try {
+      const blob = await (await fetch("jacob_epshteyn_resume.pdf")).blob();
+      await downloads.save({ filename: "Jacob_Epshteyn_Resume.pdf", data: blob });
+      note.textContent = "Resume saved.";
+    } catch (err) {
+      if (err && err.code === "declined") return;
+      note.textContent = "The download didn't start. Try again in a moment.";
+    }
+  });
+})();
+</script>
+</body>
+</html>
