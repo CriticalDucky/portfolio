@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 720" font-family="Helvetica, Arial, sans-serif" font-weight="700">
+  <rect width="1000" height="720" fill="#fff"/>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="context-stroke"/>
+    </marker>
+  </defs>
+
+  <!-- Wires -->
+  <g fill="none" stroke-width="4">
+    <!-- power supply to LED ring -->
+    <path d="M240 90H556" stroke="#a51d1d" marker-end="url(#a)"/>
+    <!-- Pi 4B data to LED ring -->
+    <path d="M600 230V136" stroke="#3d7a22" marker-end="url(#a)"/>
+    <!-- Pi 4B <-> touchscreen, Pi 4B -> audio -->
+    <path d="M330 300H244" stroke="#777" marker-end="url(#a)" marker-start="url(#a)"/>
+    <path d="M670 300H756" stroke="#777" marker-end="url(#a)"/>
+    <!-- Pico -> Pi 4B serial -->
+    <path d="M500 430V374" stroke="#111" marker-end="url(#a)"/>
+    <!-- I2C buses -->
+    <path d="M380 470H16V668H434M540 668H984V470H620" stroke="#e0b100"/>
+    <path d="M70 668V648M142 668V648M214 668V648M286 668V648M358 668V648M430 668V648M570 668V648M642 668V648M714 668V648M786 668V648M858 668V648M930 668V644" stroke="#e0b100"/>
+    <!-- XSHUT -->
+    <g stroke="#2156c9" stroke-width="2.5">
+      <path d="M420 510L70 600M430 510L142 600M440 510L214 600M450 510L286 600M460 510L358 600M470 510L430 600"/>
+      <path d="M530 510L570 600M540 510L642 600M550 510L714 600M560 510L786 600M570 510L858 600M580 510L930 600"/>
+    </g>
+  </g>
+
+  <!-- Boxes -->
+  <g stroke="#222" stroke-width="2.5">
+    <rect x="40" y="50" width="200" height="80" fill="#fff" stroke="#a51d1d"/>
+    <rect x="560" y="40" width="400" height="96" fill="#d4d4d4"/>
+    <rect x="40" y="260" width="200" height="80" fill="#fff"/>
+    <rect x="330" y="230" width="340" height="140" fill="#b6d7a8"/>
+    <rect x="760" y="260" width="200" height="80" fill="#fff"/>
+    <rect x="380" y="430" width="240" height="80" fill="#b6d7a8"/>
+    <g fill="#c27ba0">
+      <rect x="40" y="600" width="60" height="44"/><rect x="112" y="600" width="60" height="44"/><rect x="184" y="600" width="60" height="44"/>
+      <rect x="256" y="600" width="60" height="44"/><rect x="328" y="600" width="60" height="44"/><rect x="400" y="600" width="60" height="44"/>
+      <rect x="540" y="600" width="60" height="44"/><rect x="612" y="600" width="60" height="44"/><rect x="684" y="600" width="60" height="44"/>
+      <rect x="756" y="600" width="60" height="44"/><rect x="828" y="600" width="60" height="44"/><rect x="900" y="600" width="60" height="44"/>
+    </g>
+  </g>
+
+  <!-- Labels -->
+  <g text-anchor="middle" fill="#111" font-size="22">
+    <text x="140" y="86" fill="#a51d1d">POWER</text>
+    <text x="140" y="112" fill="#a51d1d">SUPPLY</text>
+    <text x="760" y="84">LED RING</text>
+    <text x="760" y="112" font-size="17" font-weight="400">156 addressable LEDs · 12 groups of 13</text>
+    <text x="140" y="296">TOUCHSCREEN</text>
+    <text x="140" y="322" font-size="16" font-weight="400">Kivy controls</text>
+    <text x="500" y="290" font-size="26">RASPBERRY PI 4B</text>
+    <text x="500" y="320" font-size="17" font-weight="400">Notes and chords · FluidSynth</text>
+    <text x="500" y="344" font-size="17" font-weight="400">LED animation · UI</text>
+    <text x="860" y="296">AUDIO OUT</text>
+    <text x="860" y="322" font-size="16" font-weight="400">SoundFont synthesis</text>
+    <text x="500" y="466">RASPBERRY PI PICO</text>
+    <text x="500" y="492" font-size="16" font-weight="400">Sensor init and readout</text>
+    <g font-size="14" fill="#fff">
+      <text x="70" y="627">1</text><text x="142" y="627">2</text><text x="214" y="627">3</text><text x="286" y="627">4</text><text x="358" y="627">5</text><text x="430" y="627">6</text>
+      <text x="570" y="627">7</text><text x="642" y="627">8</text><text x="714" y="627">9</text><text x="786" y="627">10</text><text x="858" y="627">11</text><text x="930" y="627">12</text>
+    </g>
+    <text x="250" y="702" font-size="18">VL53L0X 1–6 · I²C bus 0</text>
+    <text x="750" y="702" font-size="18">VL53L0X 7–12 · I²C bus 1</text>
+  </g>
+  <g font-size="17">
+    <text x="300" y="80" fill="#a51d1d">PWR</text>
+    <text x="612" y="190" fill="#3d7a22">DATA (GPIO 13)</text>
+    <text x="512" y="408" fill="#111">SERIAL</text>
+    <text x="40" y="462" fill="#b38d00">SDA / SCL</text>
+    <text x="866" y="462" fill="#b38d00">SDA / SCL</text>
+    <text x="500" y="566" fill="#2156c9" text-anchor="middle">XSHUT ×12</text>
+  </g>
+</svg>

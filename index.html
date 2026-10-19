@@ -52,7 +52,8 @@
   }
   .name { font-weight: 600; letter-spacing: -0.01em; text-decoration: none; }
   nav { display: flex; gap: clamp(14px, 3vw, 28px); font-size: 14px; color: var(--muted); }
-  nav a { text-decoration: none; }
+  nav a { text-decoration: none; transition: color .2s; }
+  nav a[aria-current] { color: var(--text); }
 
   /* Intro */
   .intro { padding-block: clamp(56px, 10vw, 112px) clamp(40px, 7vw, 72px); }
@@ -64,6 +65,26 @@
   }
   .intro h1 span { color: var(--muted); }
   .intro p { margin: 20px 0 0; color: var(--muted); max-width: 52ch; }
+
+  /* Project index */
+  .projects {
+    list-style: none; margin: clamp(32px, 5vw, 48px) 0 0; padding: 0;
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;
+    max-width: 820px;
+  }
+  .pcard {
+    display: flex; align-items: center; gap: 16px; padding: 12px;
+    background: var(--surface); border: 1px solid var(--line);
+    text-decoration: none; transition: border-color .2s;
+  }
+  .pcard:hover { color: inherit; border-color: var(--faint); }
+  .pcard > span:not(.arrow) { min-width: 0; }
+  .pcard img { width: 76px; height: 76px; object-fit: cover; flex-shrink: 0; }
+  .pcard .num { font-size: 12px; letter-spacing: 0.12em; color: var(--faint); font-variant-numeric: tabular-nums; }
+  .pcard .t { display: block; margin-top: 2px; font-weight: 500; line-height: 1.25; }
+  .pcard .d { display: block; margin-top: 3px; font-size: 13px; line-height: 1.4; color: var(--muted); }
+  .pcard .arrow { margin-left: auto; padding-right: 4px; color: var(--faint); transition: color .2s, transform .2s; }
+  .pcard:hover .arrow { color: var(--accent); transform: translateY(2px); }
 
   /* Project sections */
   section.project { padding-block: clamp(48px, 8vw, 96px); border-top: 1px solid var(--line); }
@@ -105,6 +126,35 @@
   .hero-img img { width: 100%; height: 100%; object-fit: cover; }
 
   .links { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 20px; font-size: 14px; }
+
+  /* Technical write-up */
+  .writeup {
+    margin-top: clamp(56px, 8vw, 88px); padding-top: 28px; border-top: 1px solid var(--line);
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr);
+    gap: clamp(20px, 5vw, 64px);
+  }
+  .writeup h3 {
+    margin: 10px 0 0; font-size: 22px; line-height: 1.2;
+    font-weight: 500; font-stretch: 85%; letter-spacing: -0.01em;
+  }
+  .writeup .text p { margin: 0; max-width: 66ch; }
+  .writeup .text p + p { margin-top: 16px; }
+
+  /* Hand-off to the other project */
+  .next {
+    margin-top: clamp(56px, 8vw, 88px); padding-block: 22px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    border-block: 1px solid var(--line); text-decoration: none;
+  }
+  .next .t {
+    display: block; margin-top: 4px;
+    font-size: clamp(22px, 3.2vw, 30px); line-height: 1.15;
+    font-weight: 500; font-stretch: 85%; letter-spacing: -0.02em;
+  }
+  .next .arrow { font-size: 24px; color: var(--faint); transition: color .2s, transform .2s; }
+  .next:hover { color: var(--text); }
+  .next:hover .arrow { color: var(--accent); transform: translateX(4px); }
+  .next.prev:hover .arrow { transform: translateY(-3px); }
 
   /* Gallery */
   .gallery-head {
@@ -191,6 +241,11 @@
     .project-head { grid-template-columns: 1fr; }
     .hero-img { aspect-ratio: 4 / 5; }
     .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .writeup { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .projects { grid-template-columns: minmax(0, 1fr); }
+    .pcard img { width: 60px; height: 60px; }
   }
   @media (max-width: 480px) {
     .gallery { grid-template-columns: 1fr; gap: 32px; }
@@ -198,7 +253,7 @@
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .gallery .thumb img, .btn { transition: none; }
+    .gallery .thumb img, .btn, .pcard .arrow, .next .arrow { transition: none; }
   }
 </style>
 </head>
@@ -216,16 +271,27 @@
 </header>
 
 <main id="top">
-  <div class="wrap intro">
+  <div class="wrap intro" id="intro">
     <h1>Jacob Epshteyn. <span>Electrical Engineering with Computing at MIT, Class of 2029.</span></h1>
-    <p>Projects: a 34-string lever harp built at the MIT Hobby Shop, and Auralis, a hand-controlled electronic instrument.</p>
+    <ul class="projects" aria-label="Projects">
+      <li><a class="pcard" href="#harp">
+        <img src="img/harp_IMG_3073.jpg" alt="" width="76" height="76">
+        <span><span class="num">01</span><span class="t">34-string lever harp</span><span class="d">CAD, CNC, woodworking · 2025–26</span></span>
+        <span class="arrow" aria-hidden="true">↓</span>
+      </a></li>
+      <li><a class="pcard" href="#auralis">
+        <img src="img/auralis_final_lit.jpg" alt="" width="76" height="76">
+        <span><span class="num">02</span><span class="t">Auralis</span><span class="d">Touchless electronic instrument · 2023–25</span></span>
+        <span class="arrow" aria-hidden="true">↓</span>
+      </a></li>
+    </ul>
   </div>
 
   <section class="project" id="harp">
     <div class="wrap">
       <div class="project-head">
         <div class="body">
-          <div class="label">MIT Hobby Shop · Oct 2025 – Apr 2026</div>
+          <div class="label">01 / 02 · MIT Hobby Shop · Oct 2025 – Apr 2026</div>
           <h2>34-string lever harp</h2>
           <p>A five-foot instrument built through CNC machining, woodworking, precision drilling, hardware installation, and stringing. The project spanned two semesters and was my introduction to woodworking.</p>
           <p>The design comes from MusicMakers, which provides it only as paper blueprints. I modeled the whole harp in Fusion 360 so its parts could be cut on a CNC router. Much gratitude is owed to the Hobby Shop staff, who provided endless support.</p>
@@ -233,8 +299,8 @@
             <dt>Strings</dt><dd>34</dd>
             <dt>Height</dt><dd>About 5 ft</dd>
             <dt>String tension</dt><dd>1,000+ lbs</dd>
-            <dt>CAD</dt><dd>Fusion 360, modeled from paper blueprints</dd>
-            <dt>Fabrication</dt><dd>CNC routing, glue-ups, sanding, hand drilling, hardware, stringing</dd>
+            <dt>CAD</dt><dd>Fusion 360, rebuilt from 2D paper blueprints</dd>
+            <dt>Fabrication</dt><dd>Jointing and planing, glue-ups, CNC routing, bandsaw, drill press, finishing, stringing</dd>
           </dl>
         </div>
         <figure class="hero-img" data-hero="harp">
@@ -242,11 +308,29 @@
         </figure>
       </div>
 
+      <div class="writeup">
+        <div>
+          <div class="label">Technical detail</div>
+          <h3>How the harp was built</h3>
+        </div>
+        <div class="text">
+          <p>MusicMakers publishes this harp as paper blueprints written for hand tools: dimensions and angles for most parts, and traced outlines for the curves a builder would follow on a bandsaw. To cut the parts on a CNC router, I rebuilt every component in Fusion 360. Parts with dimensioned geometry I modeled straight from the drawings. For the freeform contours, especially along the neck, I imported scaled sections of the plans as reference images and redrew them with arcs, turning outlines meant to be cut by eye into exact profiles. I then put all the parts together in a digital assembly, which let me check that sizes, angles, and mating faces agreed before any wood was cut.</p>
+          <p>Before anything went on the CNC, the lumber had to be jointed and planed flat and square, and boards too narrow for a part were glued edge to edge into wider blanks. The router then cut the body, neck, pillar, soundboard, back, base, and structural strips from the model. Hardware holes came from the model too: the CNC located or started them, and I finished them on the drill press. Not everything suited the machine. The neck buildup, an irregular piece above the curved neck that gives it a symmetrical profile, I cut on the bandsaw with a jig.</p>
+          <p>The model describes a harp with no strings on it, and wood under more than 1,000 lbs of combined tension doesn't keep that shape. The plans leave the pillar's final length to be fitted during assembly, because the neck deflects once it's loaded, so I trimmed the pillar until the neck and pillar lined up. Stringing showed the same effect: as tension rose, the soundboard deflected enough to pull strings I had already tuned back out of tune, and it took several passes before the tuning settled.</p>
+          <p>The biggest problem came at full tension. The soundboard and its edge strips were glued to the soundbox, and during stringing that joint failed and the soundboard pulled away from the body. I re-glued it with a stronger adhesive and more careful clamping, and it failed again under tension. Since a better glue joint wasn't enough, I changed the joint itself: I added screws so that fasteners, not just adhesive, hold the soundboard against the pull of the strings, and hid the screw heads under wooden plugs. It hasn't separated since.</p>
+        </div>
+      </div>
+
       <div class="gallery-head">
         <h3>Build log</h3>
         <span>17 photos · Oct 2025 – Apr 2026</span>
       </div>
       <ol class="gallery" id="harp-gallery"></ol>
+
+      <a class="next" href="#auralis">
+        <span><span class="label">Next project · 02 / 02</span><span class="t">Auralis, a touchless electronic instrument</span></span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
     </div>
   </section>
 
@@ -254,15 +338,15 @@
     <div class="wrap">
       <div class="project-head">
         <div class="body">
-          <div class="label">Independent project · 2023 – 2025</div>
+          <div class="label">02 / 02 · Independent project · 2023 – 2025</div>
           <h2>Auralis</h2>
-          <p>A hand-controlled electronic instrument. You play it by moving a hand over one of twelve note sensors set around an illuminated ring. It plays single notes, chords, and a large library of instrument files, and its programmable lights let it double as a light show.</p>
+          <p>A hand-controlled electronic instrument. You play it by moving a hand over one of twelve note sensors set around an illuminated ring. It plays single notes and chords using several libraries of instrument sounds, and its programmable lights let it double as a light show.</p>
           <p>I designed it over two summers and my junior year of high school, and learned CAD and programming along the way. It was inspired by Animusic, the animated series of automatic instruments. I performed it for my graduating class in 2025.</p>
           <dl class="specs">
-            <dt>Sensors</dt><dd>12 × VL53L0X time-of-flight, shared I²C bus</dd>
-            <dt>Controllers</dt><dd>Raspberry Pi 4B and Raspberry Pi Zero</dd>
-            <dt>Lighting</dt><dd>WS2812B addressable LED strip</dd>
-            <dt>Latency</dt><dd>Under 50 ms, hand to sound</dd>
+            <dt>Sensors</dt><dd>12 × VL53L0X time-of-flight, two I²C buses of six</dd>
+            <dt>Controllers</dt><dd>Raspberry Pi Pico for sensors, Raspberry Pi 4B for sound, lights, and UI</dd>
+            <dt>Sound</dt><dd>FluidSynth with SoundFont instruments</dd>
+            <dt>Lighting</dt><dd>156 addressable LEDs, in 12 groups of 13</dd>
             <dt>Enclosure</dt><dd>Modular illuminated frame, modeled in CAD</dd>
           </dl>
           <div class="links">
@@ -274,11 +358,29 @@
         </figure>
       </div>
 
+      <div class="writeup">
+        <div>
+          <div class="label">Technical detail</div>
+          <h3>How Auralis works</h3>
+        </div>
+        <div class="text">
+          <p>Each of the twelve notes is a VL53L0X time-of-flight sensor, which measures the distance to whatever is in front of it instead of waiting to be pressed. A note turns on when a hand comes within 20 cm of its sensor and stays on as long as the hand is there. Playing Auralis means reaching into and out of twelve invisible zones around the ring, one for each semitone of the octave, and holding several at once to play intervals and chords.</p>
+          <p>Wiring up twelve identical sensors was the main electronics problem. Every VL53L0X powers on at the same I²C address, so on a shared bus there's no way to tell them apart. I split the sensors across the two I²C buses of a Raspberry Pi Pico, six per bus, and gave each its own shutdown (XSHUT) line. At startup the Pico enables the sensors one at a time and assigns each a new address. From then on it only reads distances and streams them over serial to a Raspberry Pi 4B, where a background thread keeps a cache of the latest twelve readings. That way the music code reads from the cache rather than waiting on sensors.</p>
+          <p>The Pi 4B handles everything musical. It tracks which sensors are active, so a held hand sustains its note rather than retriggering it on every pass of the main loop, and pulling the hand away releases it. FluidSynth renders the notes from SoundFont instrument libraries, so the same twelve inputs can play different instruments without touching the hardware, and sounds that naturally decay are handled differently from sustained ones. A Kivy touchscreen panel sets the octave and instrument. It also has a chord mode, where one sensor plays a major or minor chord in a chosen inversion, or a chord that fits the selected key.</p>
+          <p>The same note state drives the lights. A group of thirteen LEDs sits behind each sensor, and animation code builds fades, held glows, and rotating gradients, lighting a chord's root brighter than its other notes. Each finished frame goes over Redis to a separate process that drives the strip, so the music code never deals with LED signal timing. Getting all of this to line up was as much a physical problem as a software one. The strip runs in a single line around a twelve-sided frame, so the code reverses and offsets the pixel order to match each light group to its sensor. I designed that frame in CAD to hold the sensors in consistent positions, carry the LEDs, and route the wiring, because the instrument only works if the twelve notes in software, the twelve light groups, and the twelve physical sensors agree.</p>
+        </div>
+      </div>
+
       <div class="gallery-head">
         <h3>Design and build</h3>
         <span>13 images</span>
       </div>
       <ol class="gallery" id="auralis-gallery"></ol>
+
+      <a class="next prev" href="#harp">
+        <span><span class="label">Previous project · 01 / 02</span><span class="t">34-string lever harp</span></span>
+        <span class="arrow" aria-hidden="true">↑</span>
+      </a>
     </div>
   </section>
 
@@ -286,7 +388,7 @@
     <div class="wrap">
       <div class="label">Resume</div>
       <div class="resume-row">
-        <p>One page covering education, technical projects, work experience, skills, and awards. PDF, updated September 2026.</p>
+        <p>One page covering education, technical projects, work experience, skills, and awards. PDF, updated October 2026.</p>
         <a class="btn" id="resume-btn" href="jacob_epshteyn_resume.pdf" download="Jacob_Epshteyn_Resume.pdf">
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 2v9M4 7l4 4 4-4M2.5 14h11"/></svg>
           Download resume
@@ -328,14 +430,14 @@ const HARP = [
   ["IMG_2899", "3 Feb 2026", "Clamping the soundbox", "Four pieces had to be glued at once: the base, the two sides, and the top block. One of the Hobby Shop staff helped with this tricky glue-up."],
   ["IMG_2903", "4 Feb 2026", "Clamps removed", "The frame of the soundbox is complete."],
   ["IMG_2912", "7 Feb 2026", "Fitting the rear panel", "A long rear panel with rounded openings, which give access to the interior as the body takes shape."],
-  ["IMG_2916", "10 Feb 2026", "Braces installed", "The CNC-cut braces support the soundbox against more than 1,000 lbs of string tension."],
+  ["IMG_2916", "10 Feb 2026", "Braces installed", "The CNC-cut braces help the soundbox carry more than 1,000 lbs of combined string tension."],
   ["IMG_2937", "19 Feb 2026", "Making and finishing the base", "The rest of the harp sits on this piece."],
   ["IMG_2951", "28 Feb 2026", "Standing the body on its base", "The soundbox stands upright on the shaped base, joining body and support into one structure."],
   ["IMG_2958", "3 Mar 2026", "Establishing the full-height form", "The front pillar stands beside the soundbox. With the neck still missing, the harp's triangular form starts to appear."],
   ["IMG_2976", "Mar 2026", "Machining the curved neck", "The plans are strict about the neck's grain direction, so I glued several boards together first. The two neck halves are machined separately and glued after structural pieces go in."],
   ["IMG_2977", "12 Mar 2026", "Checking the neck and pillar fit", "The curved neck and pillar laid out together, showing the upper frame geometry before they join the soundbox."],
   ["IMG_2985", "Mar 2026", "Sanding", "Making sure every face of the neck is smooth after the glue-up."],
-  ["IMG_3004", "Mar 2026", "Drilling the hardware locations", "Some holes couldn't be milled and had to be drilled by hand."],
+  ["IMG_3004", "Mar 2026", "Drilling the hardware locations", "The CNC located or started the hardware holes; I finished them on the drill press."],
   ["IMG_3016", "27 Mar 2026", "Assembling the complete frame", "Neck, pillar, soundbox, and base form the full harp. Tuning pins line the neck; the strings are not on yet."],
   ["IMG_3073", "18 Apr 2026", "Strung and finished", "On display for admitted students at the Hobby Shop open house during Campus Preview Weekend 2026."],
 ];
@@ -345,10 +447,10 @@ const AURALIS = [
   ["cad_frame", "CAD", "Full frame assembly", "The modular frame in perspective.", "contain"],
   ["cad_segment", "CAD", "Frame segment", "Parts for one segment of the frame.", "contain"],
   ["cad_sensor_mount", "CAD", "Suspension rings", "Fishing line threads through these rings to form a loop that hooks onto the top of each tripod, so the instrument hangs in midair.", "contain"],
-  ["diagram.png", "Electronics", "Wiring overview", "The Pi 4B drives the LED strip and powers a Pi Zero. The Zero reads all twelve sensors over shared SDA/SCL, with a separate XSHUT line for each so they can be given unique addresses.", "white"],
+  ["diagram.svg", "Electronics", "Wiring overview", "A Raspberry Pi Pico reads the twelve sensors on two I²C buses of six, with a separate XSHUT line for each so they can be given unique addresses. It streams readings over serial to the Pi 4B, which drives the sound, touchscreen, and LED ring.", "white"],
   ["frame_printed", "Aug 2023", "Frame assembled", "The ring assembled before the electronics went in."],
   ["frame_stands", "Aug 2023", "Hung between stands", "The empty frame hung from a crossbar between two stands."],
-  ["wiring", "Oct 2023", "Wiring the sensors", "Twelve sensors on one I²C bus means a lot of wire routed through the frame."],
+  ["wiring", "Oct 2023", "Wiring the sensors", "Two I²C buses plus a shutdown line for every sensor means a lot of wire routed through the frame."],
   ["lit_test", "Oct 2023", "First light", "Testing the LED strip inside the frame."],
   ["assembly", "Development", "Assembly", "Putting the ring together on the floor."],
   ["final", "Dec 2023", "Lights off", "The ring on its stands with the lights off."],
@@ -379,6 +481,16 @@ function renderGallery(el, items, prefix, alts) {
 }
 renderGallery(document.getElementById("harp-gallery"), HARP, "harp");
 renderGallery(document.getElementById("auralis-gallery"), AURALIS, "auralis");
+
+// Highlight the nav link for the section in view
+const navLinks = [...document.querySelectorAll("header nav a")];
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    navLinks.forEach(a => a.toggleAttribute("aria-current", a.hash === "#" + e.target.id));
+  });
+}, { rootMargin: "-45% 0px -50% 0px" });
+document.querySelectorAll("#intro, section[id]").forEach(s => spy.observe(s));
 
 // Lightbox
 const lb = document.getElementById("lightbox");
